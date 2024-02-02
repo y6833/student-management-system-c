@@ -68,10 +68,8 @@ export default {
             this.$message.error("密码不能为空");
           } else {
             const res = await loginInfo(this.user)
-			console.log(res)
             if (res.code == 200) {
               localStorage.setItem("user", JSON.stringify(res.data)); //将用户信息存入浏览器
-              console.log(res);
                 this.$router.push("../../pages/index/index");
                 this.$message.success("登录成功");
               } else {
