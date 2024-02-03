@@ -1,6 +1,7 @@
 <template>
   <view>
     <view class="basicInfo">
+      <h2>考试名称：{{ examValue }}</h2>
       <view class="basicInfoRight">
         <view
           class="grade_bar"
@@ -28,13 +29,13 @@
           :examValue="examValue"
         />
       </view>
-	  <div class="proposal">评语：{{proposal}}</div>
+      <div class="proposal">评语：{{ proposal }}</div>
     </view>
   </view>
 </template>
 
 <script>
-import { getSubRank ,getProposal} from "@/api/scores";
+import { getSubRank, getProposal } from "@/api/scores";
 import StudentRadarChart from "@/components/fig/StudentRadarChart.vue";
 export default {
   components: {
@@ -45,29 +46,28 @@ export default {
       subRankList: [],
       examValue: "", //考试名称
       studentValue: "", //学生id
-	  proposal:""
+      proposal: "",
     };
   },
   mounted() {
     this.getSubRank();
-	this.getProposal()
+    this.getProposal();
   },
   onLoad(options) {
     this.examValue = options.exam;
     this.studentValue = options.studentId;
   },
   methods: {
-	async getProposal(){
-		const params = {
+    async getProposal() {
+      const params = {
         examValue: this.examValue,
         studentValue: this.studentValue,
       };
       const res = await getProposal(params);
       if (res.code == 200) {
-		console.log(res.data);
         this.proposal = res.data;
       }
-	},
+    },
     async getSubRank() {
       const params = {
         examValue: this.examValue,

@@ -6,3 +6,12 @@ export function getStuByRoleId(id) {
         'method': 'GET',
     })
 }
+
+//修改学生
+export function updatastudent(data) {
+    return request({
+        'url': '/user/student/updata',
+        'method': 'POST',
+        data
+    })
+}

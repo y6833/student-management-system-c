@@ -8,7 +8,7 @@
         placeholder="学期"
         size="mini"
         style="padding: 6px; width: 100px"
-        @change="changeExamType"
+        @change="choiceSchedule"
       >
         <el-option
           v-for="item in semesterList"
@@ -45,7 +45,12 @@
           @click="mnueOption = 1"
           >历史考试</view
         >
-        <view class="option" @click="getscheduleWorkList">学期课表</view>
+        <view
+          class="option"
+          :class="mnueOption == 2 ? 'optionHover' : ''"
+          @click="getscheduleWorkListFunc"
+          >学期课表</view
+        >
       </view>
       <view class="history_exam" v-if="mnueOption == 1">
         <view class="exam-select">
@@ -72,20 +77,7 @@
             </view>
             <view class="examList_item_time">
               考试时间：{{ item.examDate }}
-              <span class="goto" @click="gotoScires(item.examName)">
-                >
-                <!-- <router-link
-                  class="LookStudent"
-                  :to="{
-                    path: '../../pages/scores_student/scores_student',
-                    query: {
-                      exam: item.examName,
-                      studentId: user.roleId,
-                    },
-                  }"
-                  >></router-link
-                > -->
-              </span>
+              <span class="goto" @click="gotoScires(item.examName)"> > </span>
             </view>
           </view>
         </view>
@@ -211,8 +203,17 @@ export default {
         ]),
       });
     },
+    choiceSchedule() {
+      this.changeExamType();
+      this.getscheduleWorkList();
+    },
+    getscheduleWorkListFunc() {
+      this.getscheduleWorkList();
+      this.mnueOption = 2;
+    },
     //获取课表内容
     async getscheduleWorkList() {
+      this.scheduleList = [];
       const params = {
         semester: this.semester,
         releId: this.user.roleId,
@@ -222,7 +223,6 @@ export default {
       if (res.code == 200) {
         this.scheduleList = res.data;
       }
-      this.mnueOption = 2;
     },
     //选择考试类型获得考试列表
     async changeExamType() {
@@ -246,7 +246,7 @@ export default {
     gotoUserInfo() {
       // this.$router.push("../../pages/person/person");
       uni.navigateTo({
-        url:'/pages/person/person',
+        url: "/pages/person/person",
       });
     },
     gotoScires(examName) {
@@ -303,7 +303,7 @@ export default {
   position: absolute;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  height: 800px;
+  min-height: 200px;
   width: 100%;
   background-color: #fff;
   top: 250px;
@@ -350,10 +350,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.option:hover {
+/* .option:hover {
   background-color: #5efce8;
   color: #fff;
-}
+} */
 .optionHover {
   background-color: #5efce8;
   color: #fff;
@@ -368,6 +368,11 @@ export default {
   line-height: 40px;
 }
 .examList_item_title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 180px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
   margin-left: 10px;
   font-size: 16px;
 }
