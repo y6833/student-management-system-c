@@ -1,5 +1,5 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path" : "pages/login/login",
 			"style" : 
@@ -35,8 +35,15 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/exam_details/exam_details",
+			"style" : 
+			{
+				"navigationBarTitleText" : "考试详情",
+				"enablePullDownRefresh" : false
+			}
 		}
-
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,42 +1,41 @@
 <template>
   <view class="content">
-    <view class="header"> </view>
-    <!-- 考试选择 -->
-    <view class="semester-select">
-      <el-select
-        v-model="semester"
-        placeholder="学期"
-        size="mini"
-        style="padding: 6px; width: 100px"
-        @change="choiceSchedule"
-      >
-        <el-option
-          v-for="item in semesterList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
+    <view class="header">
+      <view class="semester-select">
+        <el-select
+          v-model="semester"
+          placeholder="学期"
+          size="mini"
+          @change="choiceSchedule"
+        >
+          <el-option
+            v-for="item in semesterList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </view>
+      <view class="user-container">
+        <view class="userInfo">
+          <p>姓名：{{ student.name }}</p>
+          <p>年级：{{ student.grade }}</p>
+          <p>班级：{{ student.classId }}</p>
+          <p v-if="student.major" style="width: 220px">专业：{{ student.major }}</p>
+        </view>
+        <view class="avatar" @click="gotoUserInfo">
+          <image
+            class="avatar_img"
+            :src="user.avatar"
+            mode="aspectFit|aspectFill|widthFix"
+            lazy-load="false"
+            binderror=""
+            bindload=""
+          />
+        </view>
+      </view>
     </view>
-
     <view class="triangle"> </view>
-    <view class="userInfo">
-      <p>姓名：{{ student.name }}</p>
-      <p>年级：{{ student.grade }}</p>
-      <p>班级：{{ student.classId }}</p>
-      <p v-if="student.major" style="width: 220px">专业：{{ student.major }}</p>
-    </view>
-    <view class="avatar" @click="gotoUserInfo">
-      <image
-        class="avatar_img"
-        :src="user.avatar"
-        mode="aspectFit|aspectFill|widthFix"
-        lazy-load="false"
-        binderror=""
-        bindload=""
-      />
-    </view>
-
     <view class="body_content">
       <view class="choiceMune">
         <view
@@ -71,13 +70,24 @@
           </el-select>
         </view>
         <view class="examList_body">
-          <view class="examList_item" v-for="item in examList" :key="item.id">
-            <view class="examList_item_title">
-              考试名称：{{ item.examName }}
+          <view class="examList_item" v-for="(item, index) in examList" :key="index">
+            <view class="course_name">{{ item.courseName }}</view>
+            <view class="exam_info">
+              <view class="exam_info_item">
+                <text class="exam_info_label">考试名称</text>
+                <text class="exam_info_value">{{ item.examName }}</text>
+              </view>
             </view>
-            <view class="examList_item_time">
-              考试时间：{{ item.examDate }}
-              <span class="goto" @click="gotoScires(item.examName)"> > </span>
+            <view class="exam_time">
+              <text class="exam_time_icon">📅</text>
+              <text class="exam_time_text">{{ item.examDate }}</text>
+            </view>
+            <view class="exam_location">
+              <text class="exam_location_icon">📍</text>
+              <text class="exam_location_text">{{ item.examLocation || '暂无地点信息' }}</text>
+            </view>
+            <view class="exam_actions">
+              <el-button type="text" size="small" @click="gotoScires(item.examName,item.id)">查看详情</el-button>
             </view>
           </view>
         </view>
@@ -234,6 +244,8 @@ export default {
       const res = await getExamListByExamTypeAndSemesterAndReleId(params);
       if (res.code == 200) {
         this.examList = res.data;
+        console.log('this.examList',this.examList);
+        
       }
     },
     //通过releId获取学生的信息
@@ -249,10 +261,10 @@ export default {
         url: "/pages/person/person",
       });
     },
-    gotoScires(examName) {
+    gotoScires(examName,id) {
       // index.vue
       uni.navigateTo({
-        url: `/pages/scores_student/scores_student?exam=${examName}&studentId=${this.user.roleId}`,
+        url: `/pages/scores_student/scores_student?exam=${examName}&examId=${id}&studentId=${this.user.roleId}`,
       });
     },
   },
@@ -261,58 +273,81 @@ export default {
 
 <style>
 .content {
-  padding: 20px;
+  padding: 15px;
   min-height: 100vh;
   background-color: #f5f7fa;
 }
 
 .header {
-  height: 150px;
   background: linear-gradient(135deg, #409EFF 0%, #1890ff 100%);
   border-radius: 15px;
   margin-bottom: 20px;
-  position: relative;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .semester-select {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  margin-bottom: 20px;
+  width: 160px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+:deep(.semester-select .el-input__inner) {
+  background: transparent;
+  border: none;
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+}
+
+:deep(.semester-select .el-input__inner::placeholder) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:deep(.semester-select .el-select .el-input .el-select__caret) {
+  color: #fff;
+}
+
+.user-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .userInfo {
-  position: absolute;
-  top: 50%;
-  left: 30px;
-  transform: translateY(-50%);
   color: #fff;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .userInfo p {
-  margin: 8px 0;
-  font-size: 16px;
+  margin: 0;
+  font-size: 15px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .avatar {
-  position: absolute;
-  top: 50%;
-  right: 30px;
-  transform: translateY(-50%);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .avatar:hover {
-  transform: translateY(-50%) scale(1.05);
+  transform: scale(1.05);
 }
 
 .avatar_img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border: 3px solid #fff;
+  border: 2px solid #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -327,23 +362,26 @@ export default {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #ebeef5;
-  padding-bottom: 10px;
+  gap: 10px;
+  padding: 8px;
+  background: #f8f9fb;
+  border-radius: 8px;
 }
 
 .option {
-  padding: 10px 30px;
-  margin: 0 10px;
-  cursor: pointer;
+  padding: 8px 20px;
   border-radius: 20px;
+  font-size: 14px;
   transition: all 0.3s ease;
   color: #606266;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .optionHover {
   background: #409EFF;
   color: #fff;
-  box-shadow: 0 2px 12px rgba(64, 158, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
 }
 
 .exam-select {
@@ -351,82 +389,228 @@ export default {
 }
 
 .examList_body {
-  max-height: 500px;
-  overflow-y: auto;
+  padding: 10px;
 }
 
 .examList_item {
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  background: #f8f9fb;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
   transition: all 0.3s ease;
+  border: 1px solid #ebeef5;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.examList_item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, #409EFF, #667eea);
+  border-radius: 2px;
 }
 
 .examList_item:hover {
-  transform: translateX(5px);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.examList_item_title {
-  font-size: 16px;
+.course_name {
+  font-size: 18px;
+  font-weight: 600;
   color: #303133;
+  margin-bottom: 15px;
+  padding-left: 12px;
+}
+
+.exam_info {
+  background: #f8f9fb;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+}
+
+.exam_info_item {
+  display: flex;
+  align-items: center;
   margin-bottom: 8px;
 }
 
-.examList_item_time {
+.exam_info_item:last-child {
+  margin-bottom: 0;
+}
+
+.exam_info_label {
   color: #909399;
   font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-right: 8px;
+  min-width: 70px;
 }
 
-.goto {
-  cursor: pointer;
-  background: #409EFF;
-  color: #fff;
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+.exam_info_value {
+  color: #606266;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
 }
 
-.goto:hover {
-  transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+.exam_time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  background: #f0f7ff;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+.exam_time_icon {
+  color: #409EFF;
+  font-size: 16px;
+}
+
+.exam_time_text {
+  color: #409EFF;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.exam_location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background: #f8f9fb;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.exam_location_icon {
+  color: #909399;
+  font-size: 16px;
+}
+
+.exam_location_text {
+  color: #606266;
+  font-size: 14px;
+}
+
+.exam_actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  border-top: 1px solid #f0f2f5;
 }
 
 /* 课表样式 */
+.schedule_table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.schedule_table thead {
+  background: #f5f7fa;
+}
+
+.schedule_table th {
+  background: #f5f7fa;
+  padding: 12px;
+  font-weight: 500;
+  color: #606266;
+  border: 1px solid #ebeef5;
+  min-width: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.schedule_table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #f5f7fa;
+}
+
+.schedule_table td {
+  padding: 12px 8px;
+  border: 1px solid #ebeef5;
+  text-align: center;
+  vertical-align: middle;
+  color: #606266;
+  min-width: 80px;
+  max-width: 120px;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.schedule_table td:first-child {
+  position: sticky;
+  left: 0;
+  background: #f5f7fa;
+  z-index: 1;
+  font-weight: 500;
+}
+
+.schedule_td {
+  height: 60px;
+  background: #fff;
+}
+
+.schedule_td:hover {
+  background: #f5f7fa;
+}
+
+/* 课表容器样式 */
+.semester_schedule {
+  margin-top: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 周数选择器样式 */
 .No_week {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  padding: 10px;
+  background: #f8f9fb;
+  border-radius: 8px;
 }
 
 .No_week_centent {
   margin: 0 20px;
-  font-size: 16px;
+  font-size: 15px;
   color: #303133;
+  font-weight: 500;
 }
 
 .reduce, .plus {
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
   background: #409EFF;
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
-}
-
-.reduce:hover, .plus:hover {
-  transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .reduce::before, .plus::before, .plus::after {
@@ -438,96 +622,72 @@ export default {
 .reduce::before {
   width: 12px;
   height: 2px;
-  top: 11px;
-  left: 6px;
 }
 
 .plus::before {
   width: 12px;
   height: 2px;
-  top: 11px;
-  left: 6px;
 }
 
 .plus::after {
   width: 2px;
   height: 12px;
-  top: 6px;
-  left: 11px;
-}
-
-.schedule_table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-}
-
-.schedule_table th {
-  background: #f5f7fa;
-  padding: 12px;
-  font-weight: 500;
-  color: #606266;
-  border: 1px solid #ebeef5;
-}
-
-.schedule_table td {
-  padding: 12px;
-  border: 1px solid #ebeef5;
-  text-align: center;
-  vertical-align: middle;
-  color: #606266;
-  min-width: 100px;
-}
-
-.schedule_td {
-  height: 60px;
 }
 
 :deep(.el-button--text) {
-  color: #409EFF;
-  font-weight: 500;
+  padding: 4px 8px;
+  font-size: 14px;
 }
 
-:deep(.el-button--text:hover) {
-  color: #66b1ff;
-}
+@media screen and (max-width: 768px) {
+  .schedule_table th,
+  .schedule_table td {
+    padding: 8px 6px;
+    font-size: 13px;
+  }
 
-:deep(.el-select) {
-  width: 120px;
-}
+  .No_week {
+    padding: 8px;
+  }
 
-:deep(.el-select .el-input__inner) {
-  border-radius: 20px;
-}
+  .No_week_centent {
+    font-size: 14px;
+  }
 
-:deep(.el-message-box) {
-  border-radius: 12px;
-}
+  .reduce, .plus {
+    width: 24px;
+    height: 24px;
+  }
 
-:deep(.el-message-box__header) {
-  padding: 15px 20px;
-  background: #f5f7fa;
-}
+  .examList_body {
+    padding: 10px;
+  }
 
-:deep(.el-message-box__title) {
-  font-size: 18px;
-  font-weight: 600;
-  color: #303133;
-}
+  .examList_item {
+    padding: 15px;
+    margin-bottom: 12px;
+  }
 
-:deep(.el-message-box__content) {
-  padding: 20px;
-  color: #606266;
-}
+  .course_name {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
 
-:deep(.el-message-box__btns) {
-  padding: 10px 20px 20px;
-}
+  .exam_info {
+    padding: 10px;
+  }
 
-:deep(.el-button) {
-  border-radius: 20px;
+  .exam_info_label {
+    font-size: 13px;
+    min-width: 60px;
+  }
+
+  .exam_info_value {
+    font-size: 13px;
+  }
+
+  .exam_time, .exam_location {
+    padding: 8px 12px;
+  }
 }
 </style>

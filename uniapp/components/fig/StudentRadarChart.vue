@@ -1,11 +1,10 @@
-<!-- 折线图 -->
 <template>
-  <div>
-    <div id="StudentRadarChart" style="width: 430px; height: 340px"></div>
+  <div class="radar-chart-container">
+    <div id="StudentRadarChart"></div>
   </div>
 </template>
     
-  <script>
+<script>
 import * as echarts from "echarts";
 export default {
   name: "StudentRadarChart",
@@ -33,13 +32,26 @@ export default {
   },
   mounted() {
     this.showChart();
+    // 添加窗口resize监听
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    // 移除resize监听
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
+    handleResize() {
+      const chartDom = document.getElementById("StudentRadarChart");
+      if (chartDom) {
+        const chart = echarts.getInstanceByDom(chartDom);
+        chart && chart.resize();
+      }
+    },
     async showChart() {
-      this.studentScoreList = []; //学生成绩
-      this.ScoreAveList = []; //平均成绩
+      this.studentScoreList = [];
+      this.ScoreAveList = [];
       this.courseMAxList = [];
-      // 基于准备好的dom，初始化echarts实例
+      
       let chartDom = document.getElementById("StudentRadarChart");
       let myChart = echarts.init(chartDom);
       let option;
@@ -61,91 +73,132 @@ export default {
 
         option = {
           title: {
-            text: "多维雷达",
+            text: '成绩分析雷达图',
+            left: 'center',
+            top: 20,
             textStyle: {
-              color: "#fff",
-              align: "center",
-            },
-            subtext: "成绩多维雷达",
+              color: '#303133',
+              fontSize: 16,
+              fontWeight: 500
+            }
           },
-          backgroundColor: "#fff",
-          tooltip: {},
-          legend: {
-            data: ["学生成绩", "年级平均成绩"],
-            show: true,
-            right: 20,
+          backgroundColor: '#ffffff',
+          tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            borderColor: '#ebeef5',
+            borderWidth: 1,
+            padding: [10, 15],
             textStyle: {
-              color: "#000",
+              color: '#606266',
+              fontSize: 14
             },
+            formatter: (params) => {
+              return `${params.name}<br/>${params.marker}分数：${params.value}`;
+            }
+          },
+          legend: {
+            data: ['个人成绩', '年级平均'],
+            bottom: 0,
+            itemWidth: 14,
+            itemHeight: 14,
+            textStyle: {
+              color: '#606266',
+              fontSize: 13
+            },
+            itemStyle: {
+              borderWidth: 0
+            }
           },
           radar: {
-            splitLine: {
-              lineStyle: {
-                color: ["#fff", "#a00"], //一个一个圈的线条颜色
-              },
+            center: ['50%', '50%'],
+            radius: '65%',
+            splitNumber: 4,
+            shape: 'circle',
+            axisName: {
+              color: '#606266',
+              fontSize: 12,
+              padding: [4, 8],
+              formatter: (name) => {
+                if (name.length > 4) {
+                  return name.substring(0, 4) + '...';
+                }
+                return name;
+              }
             },
             splitArea: {
               areaStyle: {
-                // color: ['#FF884C','#9A47FF']   //分隔区域颜色
-              },
+                color: ['#f8f9fb', '#f0f2f5', '#e6e8eb', '#dcdfe6'],
+                shadowColor: 'rgba(0, 0, 0, 0.05)',
+                shadowBlur: 10
+              }
             },
             axisLine: {
               lineStyle: {
-                color: "orange", //轴颜色
-              },
+                color: '#dcdfe6'
+              }
             },
-            shape: "polygon", //形状,支持 'polygon' 和 'circle'
-            name: {
-              textStyle: {
-                color: "#fff",
-                backgroundColor: "#898989",
-                borderRadius: 3,
-                padding: [3, 5, 5],
-              },
+            splitLine: {
+              lineStyle: {
+                color: '#ebeef5'
+              }
             },
-            indicator: this.courseMAxList || [],
-            backgroundColor: "#000",
+            indicator: this.courseMAxList || []
           },
           series: [
             {
-              name: "学生成绩 vs 年级平均成绩",
-              type: "radar",
-              // areaStyle: {normal: {}},   //显示面积
+              name: '成绩对比',
+              type: 'radar',
               data: [
                 {
                   value: this.studentScoreList,
-                  name: "学生成绩",
-                  symbol: "rect",
-                  symbolSize: 12,
+                  name: '个人成绩',
+                  symbol: 'circle',
+                  symbolSize: 6,
                   lineStyle: {
-                    type: "dashed",
+                    width: 2,
+                    color: '#409EFF'
+                  },
+                  areaStyle: {
+                    color: 'rgba(64, 158, 255, 0.2)'
+                  },
+                  itemStyle: {
+                    color: '#409EFF'
                   },
                   label: {
                     show: true,
-                    formatter: function (params) {
-                      return params.value;
-                    },
-                  },
+                    color: '#409EFF',
+                    fontSize: 12,
+                    formatter: '{c}'
+                  }
                 },
                 {
                   value: this.ScoreAveList,
-                  name: "年级平均成绩",
-                  symbol: "rect",
-                  symbolSize: 12,
+                  name: '年级平均',
+                  symbol: 'circle',
+                  symbolSize: 6,
                   lineStyle: {
-                    type: "dashed",
+                    width: 2,
+                    color: '#67c23a'
+                  },
+                  areaStyle: {
+                    color: 'rgba(103, 194, 58, 0.2)'
+                  },
+                  itemStyle: {
+                    color: '#67c23a'
                   },
                   label: {
                     show: true,
-                    formatter: function (params) {
-                      return params.value;
-                    },
-                  },
-                },
-              ],
-            },
-          ],
+                    color: '#67c23a',
+                    fontSize: 12,
+                    formatter: '{c}'
+                  }
+                }
+              ]
+            }
+          ]
         };
+        
         option && myChart.setOption(option);
       }
     },
@@ -153,5 +206,23 @@ export default {
 };
 </script>
     
-    <style scoped>
+<style scoped>
+.radar-chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+#StudentRadarChart {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+@media screen and (max-width: 768px) {
+  .radar-chart-container,
+  #StudentRadarChart {
+    min-height: 300px;
+  }
+}
 </style>
