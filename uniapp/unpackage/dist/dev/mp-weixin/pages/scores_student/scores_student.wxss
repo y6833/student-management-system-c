@@ -1,0 +1,20 @@
+
+.basicInfo {
+  height: 400px;
+  line-height: 40px;
+  font-size: 14px;
+  background-color: #fff;
+}
+.grade_bar {
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  background-color: #f5f9fc;
+  width: 93%;
+  display: flex;
+  justify-content: space-between;
+}
+.gradeBar_Name {
+  color: #8c9abb;
+  margin-right: 10px;
+}
+

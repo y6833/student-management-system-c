@@ -1,0 +1,82 @@
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url(/static/login/login.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.login-content {
+  /* background-color: #fff; */
+  width: 520px;
+  background-color: rgba(129, 201, 235, 0.7);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  -webkit-animation: glow 2s infinite ease-in-out alternate;
+          animation: glow 2s infinite ease-in-out alternate;
+}
+@-webkit-keyframes glow {
+0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.493);
+}
+50% {
+    -webkit-transform: scale(1.05);
+            transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+}
+@keyframes glow {
+0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.493);
+}
+50% {
+    -webkit-transform: scale(1.05);
+            transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+}
+._h2 {
+  color: #333;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.login-input {
+  width: 100%;
+  /* padding: 10px; */
+  /* border: 1px solid #ccc; */
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 123, 255, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.login-button:hover {
+  background-color: #0056b3;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+

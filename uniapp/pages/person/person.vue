@@ -188,55 +188,130 @@ export default {
 
 <style scoped>
 .container {
-  padding: 30px;
-  background-color: #fff;
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
 }
+
 .avatar {
-  width: 100px;
-  /* height: 100px; */
-  border-radius: 50%;
-  margin-right: 30px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 20px 0;
 }
+
+.avatar image {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.avatar image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
 .nickname {
-  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 30px;
 }
+
 .nickname-text {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
 }
+
 .info {
-  margin-top: 20px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
+
 .item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
-  height: 40px;
-  padding: 0 20px;
-  /* border: 1px solid #8080804f; */
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ebeef5;
+  transition: all 0.3s ease;
 }
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background-color: #f8f9fb;
+  transform: translateX(5px);
+}
+
 .item-title {
-  font-size: 14px;
-  font-weight: bold;
-  margin-right: 10px;
+  color: #606266;
+  font-size: 16px;
+  font-weight: 500;
 }
+
 .item-value {
-  font-size: 14px;
-  color: #888;
+  color: #303133;
+  font-size: 16px;
 }
+
 .modify {
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  padding: 0 20px;
 }
+
 .modify-btn {
-  padding: 10px 20px;
-  /* background-color: #09bb07;
-  color: #fff; */
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  width: 45%;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.modify-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dialog样式优化 */
+:deep(.el-dialog) {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+:deep(.el-dialog__header) {
+  background: #f5f7fa;
+  padding: 15px 20px;
+}
+
+:deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+:deep(.el-dialog__body) {
+  padding: 30px 20px;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 8px;
+}
+
+:deep(.el-radio) {
+  margin-right: 20px;
+}
+
+:deep(.el-button) {
+  border-radius: 8px;
 }
 </style>

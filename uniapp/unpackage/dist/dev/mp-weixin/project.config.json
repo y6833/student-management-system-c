@@ -21,7 +21,17 @@
   "libVersion": "3.3.2",
   "appid": "touristappid",
   "projectname": "uniapp",
-  "condition": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/person/person",
+          "pathName": "pages/person/person",
+          "query": ""
+        }
+      ]
+    }
+  },
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2

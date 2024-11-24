@@ -261,174 +261,273 @@ export default {
 
 <style>
 .content {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.header {
+  height: 150px;
+  background: linear-gradient(135deg, #409EFF 0%, #1890ff 100%);
+  border-radius: 15px;
+  margin-bottom: 20px;
   position: relative;
 }
-.header {
-  background-color: #010;
-  width: 100%;
-  height: 300px;
+
+.semester-select {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
+
+.userInfo {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  color: #fff;
+  z-index: 1;
+}
+
+.userInfo p {
+  margin: 8px 0;
+  font-size: 16px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .avatar {
   position: absolute;
-  top: 90px;
-  right: 60px;
-  background-color: #010;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+.avatar:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
 .avatar_img {
-  width: 80%;
-  height: 80%;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background-color: #fff;
-  overflow: hidden;
-}
-.triangle {
-  position: absolute;
-  top: 0px;
-  left: -150px;
-  width: 0;
-  height: 0;
-  border-left: 300px solid transparent;
-  border-right: 300px solid transparent;
-  border-bottom: 300px solid #5efce8;
-  transform: rotate(90deg);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .body_content {
-  position: absolute;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  min-height: 200px;
-  width: 100%;
-  background-color: #fff;
-  top: 250px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
-.userInfo {
-  position: absolute;
-  top: 80px;
-  left: 20px;
-  font-family: 华文新魏;
-  font-size: 20px;
-  line-height: 30px;
-}
-.semester-select {
-  position: absolute;
-  top: 10px;
-  left: 130px;
-  z-index: 10;
-  min-width: 150px;
-  height: 40px;
-  background-color: #fff;
-  opacity: 0.8;
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-::v-deep .el-select .el-input__inner {
-  font-size: 14px;
-  border: 0;
-}
+
 .choiceMune {
   display: flex;
-  justify-content: space-between;
-  padding: 2px 0;
-  border-bottom: 1px solid #8080804f;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ebeef5;
+  padding-bottom: 10px;
 }
+
 .option {
-  width: 50%;
-  height: 40px;
-  background-color: #fff;
-  opacity: 0.8;
-  border-radius: 50px;
+  padding: 10px 30px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  color: #606266;
+}
+
+.optionHover {
+  background: #409EFF;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(64, 158, 255, 0.2);
+}
+
+.exam-select {
+  margin-bottom: 20px;
+}
+
+.examList_body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.examList_item {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background: #f8f9fb;
+  transition: all 0.3s ease;
+}
+
+.examList_item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.examList_item_title {
+  font-size: 16px;
+  color: #303133;
+  margin-bottom: 8px;
+}
+
+.examList_item_time {
+  color: #909399;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goto {
+  cursor: pointer;
+  background: #409EFF;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.goto:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+}
+
+/* 课表样式 */
+.No_week {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
-/* .option:hover {
-  background-color: #5efce8;
-  color: #fff;
-} */
-.optionHover {
-  background-color: #5efce8;
-  color: #fff;
-}
-.examList_item {
-  margin: 10px 0;
-  width: 100%;
-  height: 40px;
-  background-color: #5efce8;
-  display: flex;
-  justify-content: space-between;
-  line-height: 40px;
-}
-.examList_item_title {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 180px;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  margin-left: 10px;
+
+.No_week_centent {
+  margin: 0 20px;
   font-size: 16px;
+  color: #303133;
 }
-.examList_item_time {
-  margin-right: 5px;
-  font-size: 16px;
+
+.reduce, .plus {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #409EFF;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
 }
-.goto {
-  font-size: 20px;
-  margin: 0 16px;
+
+.reduce:hover, .plus:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
 }
-.LookStudent {
-  color: #000;
-  text-decoration: none;
+
+.reduce::before, .plus::before, .plus::after {
+  content: '';
+  position: absolute;
+  background: #fff;
 }
+
+.reduce::before {
+  width: 12px;
+  height: 2px;
+  top: 11px;
+  left: 6px;
+}
+
+.plus::before {
+  width: 12px;
+  height: 2px;
+  top: 11px;
+  left: 6px;
+}
+
+.plus::after {
+  width: 2px;
+  height: 12px;
+  top: 6px;
+  left: 11px;
+}
+
 .schedule_table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
-table {
-  border-collapse: collapse;
-  width: 100%;
+
+.schedule_table th {
+  background: #f5f7fa;
+  padding: 12px;
+  font-weight: 500;
+  color: #606266;
+  border: 1px solid #ebeef5;
 }
-th,
-td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
+
+.schedule_table td {
+  padding: 12px;
+  border: 1px solid #ebeef5;
+  text-align: center;
+  vertical-align: middle;
+  color: #606266;
+  min-width: 100px;
 }
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
+
 .schedule_td {
   height: 60px;
 }
-.No_week {
-  display: flex;
-  justify-content: space-between;
-  justify-items: center;
-  margin: 10px 0;
+
+:deep(.el-button--text) {
+  color: #409EFF;
+  font-weight: 500;
 }
-.plus {
-  width: 0;
-  height: 0;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-left: 20px solid #5efce8;
-  margin-right: 50px;
+
+:deep(.el-button--text:hover) {
+  color: #66b1ff;
 }
-.reduce {
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-right: 20px solid #5efce8;
-  margin-left: 50px;
-  width: 0;
-  height: 0;
+
+:deep(.el-select) {
+  width: 120px;
+}
+
+:deep(.el-select .el-input__inner) {
+  border-radius: 20px;
+}
+
+:deep(.el-message-box) {
+  border-radius: 12px;
+}
+
+:deep(.el-message-box__header) {
+  padding: 15px 20px;
+  background: #f5f7fa;
+}
+
+:deep(.el-message-box__title) {
+  font-size: 18px;
+  font-weight: 600;
+  color: #303133;
+}
+
+:deep(.el-message-box__content) {
+  padding: 20px;
+  color: #606266;
+}
+
+:deep(.el-message-box__btns) {
+  padding: 10px 20px 20px;
+}
+
+:deep(.el-button) {
+  border-radius: 20px;
 }
 </style>

@@ -1,0 +1,173 @@
+
+.content {
+  position: relative;
+}
+.header {
+  background-color: #010;
+  width: 100%;
+  height: 300px;
+}
+.avatar {
+  position: absolute;
+  top: 90px;
+  right: 60px;
+  background-color: #010;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avatar_img {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: #fff;
+  overflow: hidden;
+}
+.triangle {
+  position: absolute;
+  top: 0px;
+  left: -150px;
+  width: 0;
+  height: 0;
+  border-left: 300px solid transparent;
+  border-right: 300px solid transparent;
+  border-bottom: 300px solid #5efce8;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.body_content {
+  position: absolute;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  min-height: 200px;
+  width: 100%;
+  background-color: #fff;
+  top: 250px;
+}
+.userInfo {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  font-family: 华文新魏;
+  font-size: 20px;
+  line-height: 30px;
+}
+.semester-select {
+  position: absolute;
+  top: 10px;
+  left: 130px;
+  z-index: 10;
+  min-width: 150px;
+  height: 40px;
+  background-color: #fff;
+  opacity: 0.8;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ .el-select .el-input__inner {
+  font-size: 14px;
+  border: 0;
+}
+.choiceMune {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  border-bottom: 1px solid #8080804f;
+}
+.option {
+  width: 50%;
+  height: 40px;
+  background-color: #fff;
+  opacity: 0.8;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .option:hover {
+  background-color: #5efce8;
+  color: #fff;
+} */
+.optionHover {
+  background-color: #5efce8;
+  color: #fff;
+}
+.examList_item {
+  margin: 10px 0;
+  width: 100%;
+  height: 40px;
+  background-color: #5efce8;
+  display: flex;
+  justify-content: space-between;
+  line-height: 40px;
+}
+.examList_item_title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 180px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  margin-left: 10px;
+  font-size: 16px;
+}
+.examList_item_time {
+  margin-right: 5px;
+  font-size: 16px;
+}
+.goto {
+  font-size: 20px;
+  margin: 0 16px;
+}
+.LookStudent {
+  color: #000;
+  text-decoration: none;
+}
+.schedule_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+._table {
+  border-collapse: collapse;
+  width: 100%;
+}
+._th,
+._td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+._th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+.schedule_td {
+  height: 60px;
+}
+.No_week {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  margin: 10px 0;
+}
+.plus {
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 20px solid #5efce8;
+  margin-right: 50px;
+}
+.reduce {
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 20px solid #5efce8;
+  margin-left: 50px;
+  width: 0;
+  height: 0;
+}
+
